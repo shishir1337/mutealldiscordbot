@@ -68,4 +68,4 @@ async def on_command_error(ctx, error):
         await ctx.send(f"An error occurred: {error}")
 
 # Run the bot
-bot.run('bot_token')
+bot.run('YOUR_BOT_TOKEN')
