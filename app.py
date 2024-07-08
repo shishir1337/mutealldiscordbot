@@ -1,9 +1,6 @@
-import os
 import discord
 from discord.ext import commands
-
-# Load bot token from environment variable
-BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+from discord.ext.commands import CommandNotFound, CommandOnCooldown, MissingRequiredArgument, CheckFailure
 
 # Define the bot and intents
 intents = discord.Intents.default()
@@ -59,19 +56,16 @@ async def info(ctx):
 # Enhanced error handling
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
+    if isinstance(error, CommandNotFound):
         await ctx.send("Command not found. Please check the command and try again.")
-    elif isinstance(error, commands.CommandOnCooldown):
+    elif isinstance(error, CommandOnCooldown):
         await ctx.send(f'This command is on cooldown. Try again in {error.retry_after:.2f} seconds.')
-    elif isinstance(error, commands.MissingRequiredArgument):
+    elif isinstance(error, MissingRequiredArgument):
         await ctx.send("Missing arguments for the command. Please provide the necessary arguments.")
-    elif isinstance(error, commands.CheckFailure):
+    elif isinstance(error, CheckFailure):
         await ctx.send("You do not have permission to use this command.")
     else:
         await ctx.send(f"An error occurred: {error}")
 
-# Run the bot using the token from the environment variable
-if BOT_TOKEN:
-    bot.run(BOT_TOKEN)
-else:
-    print("Error: Bot token not found. Please set the DISCORD_BOT_TOKEN environment variable.")
+# Run the bot
+bot.run('bot_token')
